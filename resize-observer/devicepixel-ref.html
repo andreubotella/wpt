@@ -1,0 +1,22 @@
+<!doctype html>
+<title>hidpi2</title>
+<body>
+<style>
+  html {
+    height: 100%;
+    overflow:hidden;
+  }
+  body {
+    margin:0;
+    height:100%;
+  }
+
+</style>
+
+<div id="outer">
+  <svg height="500" width="500">
+    <!-- Prevent anti-aliasing-- use crisp edges-->
+    <rect x="0" y="1.7" width="300.8" height="250.1" shape-rendering="crispEdges"
+        fill="#f00"/>
+  </svg>
+</div>
