@@ -7,6 +7,7 @@ import util
 def main(request, response):
   policyDeliveries = json.loads(request.GET.first('policyDeliveries', '[]'))
   worker_type = request.GET.first('type', 'classic')
+  static_import_url = request.GET.first('import_url', '')
   commonjs_url = '%s://%s:%s/common/security-features/resources/common.sub.js' % (
       request.url_parts.scheme, request.url_parts.hostname,
       request.url_parts.port)
@@ -32,10 +33,16 @@ def main(request, response):
     else:
       error = 'invalid deliveryType: %s' % delivery['deliveryType']
 
-  handler = lambda: util.get_template('worker.js.template') % ({
-      'import': import_line,
-      'error': error
-  })
+  handler = lambda: None
+  if static_import_url == '':
+    handler = lambda: util.get_template('worker.js.template') % ({
+        'import': import_line,
+        'error': error
+    })
+  else:
+    handler = lambda: util.get_template('static-import.js.template') % ({
+        'static_import_url': static_import_url
+    })
   util.respond(
       request,
       response,

@@ -1,0 +1,12 @@
+import * as module from '%(static_import_url)s';
+
+if ('DedicatedWorkerGlobalScope' in self &&
+    self instanceof DedicatedWorkerGlobalScope) {
+  postMessage(module.importedModules);
+} else if (
+    'SharedWorkerGlobalScope' in self &&
+    self instanceof SharedWorkerGlobalScope) {
+  onconnect = e => {
+    e.ports[0].postMessage(module.importedModules);
+  }
+}
